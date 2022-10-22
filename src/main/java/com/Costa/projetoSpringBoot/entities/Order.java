@@ -3,6 +3,8 @@ package com.Costa.projetoSpringBoot.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,9 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant date;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Instant moment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -28,9 +32,9 @@ public class Order implements Serializable{
 	public Order() {
 	}
 
-	public Order(Long id, Instant date, User client) {
+	public Order(Long id, Instant moment, User client) {
 		this.id = id;
-		this.date = date;
+		this.moment = moment;
 		this.client = client;
 	}
 
@@ -43,11 +47,11 @@ public class Order implements Serializable{
 	}
 
 	public Instant getDate() {
-		return date;
+		return moment;
 	}
 
-	public void setDate(Instant date) {
-		this.date = date;
+	public void setDate(Instant moment) {
+		this.moment = moment;
 	}
 
 	public User getClient() {
@@ -62,7 +66,7 @@ public class Order implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -75,13 +79,15 @@ public class Order implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (date == null) {
-			if (other.date != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!date.equals(other.date))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
+
+	
 	
 	
 }
